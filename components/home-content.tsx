@@ -228,6 +228,27 @@ export function HomeContent({
         </div>
       </section>
 
+      {/* Volunteer sign-up */}
+      <section className="border-t border-border bg-primary">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-primary-foreground text-balance">
+            {t.volunteer.title}
+          </h2>
+          <p className="mt-4 text-pretty leading-relaxed text-primary-foreground/80">
+            {t.volunteer.body}
+          </p>
+          <a
+            href="https://forms.gle/U4ekvY78DwGUF3Rm8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-base font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+          >
+            {t.volunteer.cta}
+            <ArrowRight className="size-4" />
+          </a>
+        </div>
+      </section>
+
       {/* About */}
       <section className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center">

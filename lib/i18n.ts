@@ -61,6 +61,11 @@ export type Dict = {
     error: string
     another: string
   }
+  volunteer: {
+    title: string
+    body: string
+    cta: string
+  }
   distribution: {
     title: string
     body: string
@@ -140,6 +145,11 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "Hemos recibido tu solicitud. Nuestro equipo la revisará y te contactará.",
       error: "Hubo un problema al enviar. Inténtalo de nuevo.",
       another: "Enviar otra solicitud",
+    },
+    volunteer: {
+      title: "¿Quieres ser voluntario/a?",
+      body: "Súmate al equipo. Necesitamos personas en Barcelona que puedan ayudar en los puntos de recogida, coordinar donaciones o apoyar con la logística.",
+      cta: "Apuntarme como voluntario/a",
     },
     distribution: {
       title: "¿Cómo llega la ayuda a Venezuela?",
@@ -221,6 +231,11 @@ export const translations: Record<Lang, Dict> = {
       error: "Hi ha hagut un problema en enviar. Torna-ho a provar.",
       another: "Enviar una altra sol·licitud",
     },
+    volunteer: {
+      title: "Vols ser voluntari/a?",
+      body: "Uneix-te a l'equip. Necessitem persones a Barcelona que puguin ajudar als punts de recollida, coordinar donacions o donar suport amb la logística.",
+      cta: "Apuntar-me com a voluntari/a",
+    },
     distribution: {
       title: "Com arriba l'ajuda a Veneçuela?",
       body: "Les medicines recollides es lliuraran a través d'una ONG de confiança amb àmplia experiència en enviaments humanitaris a Veneçuela.",
@@ -300,6 +315,11 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "We have received your request. Our team will review it and contact you.",
       error: "There was a problem submitting. Please try again.",
       another: "Submit another request",
+    },
+    volunteer: {
+      title: "Want to volunteer?",
+      body: "Join the team. We need people in Barcelona who can help at collection points, coordinate donations, or support with logistics.",
+      cta: "Sign up as a volunteer",
     },
     distribution: {
       title: "How does aid reach Venezuela?",
