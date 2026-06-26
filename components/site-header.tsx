@@ -23,7 +23,6 @@ export function SiteHeader() {
     { href: "/#puntos", label: t.nav.points },
     { href: "/#necesitamos", label: t.nav.needs },
     { href: "/#recursos", label: t.nav.resources },
-    { href: "/solicitar", label: t.nav.request },
   ]
 
   return (
