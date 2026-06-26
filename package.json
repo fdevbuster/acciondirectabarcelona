@@ -13,6 +13,7 @@
     "@vercel/analytics": "1.6.1",
     "better-auth": "^1.6.21",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
     "leaflet": "^1.9.4",

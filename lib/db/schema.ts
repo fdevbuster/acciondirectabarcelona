@@ -16,6 +16,7 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("emailVerified").default(false).notNull(),
   image: text("image"),
+  role: text("role").default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 })
@@ -85,6 +86,7 @@ export const materialReceived = pgTable("material_received", {
   collectionPoint: text("collectionPoint").notNull(),
   donorName: text("donorName"),
   notes: text("notes"),
+  imageUrl: text("imageUrl"),
   receivedAt: timestamp("receivedAt").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 })
