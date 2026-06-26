@@ -86,6 +86,8 @@ export const materialReceived = pgTable("material_received", {
   collectionPoint: text("collectionPoint").notNull(),
   donorName: text("donorName"),
   notes: text("notes"),
+  quantityPerUnit: text("quantityPerUnit"),
+  collectionDate: timestamp("collectionDate"),
   imageUrl: text("imageUrl"),
   expiresAt: timestamp("expiresAt"),
   receivedAt: timestamp("receivedAt").defaultNow().notNull(),

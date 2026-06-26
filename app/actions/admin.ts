@@ -69,7 +69,9 @@ export async function getReceived() {
 export async function addReceived(input: {
   itemName: string
   quantity: string
+  quantityPerUnit?: string
   collectionPoint: string
+  collectionDate?: string
   donorName?: string
   notes?: string
   imageUrl?: string
@@ -81,7 +83,9 @@ export async function addReceived(input: {
     userId: u.id,
     itemName: input.itemName.trim(),
     quantity: input.quantity.trim(),
+    quantityPerUnit: input.quantityPerUnit?.trim() || null,
     collectionPoint: input.collectionPoint.trim(),
+    collectionDate: input.collectionDate ? new Date(input.collectionDate) : null,
     donorName: input.donorName?.trim() || null,
     notes: input.notes?.trim() || null,
     imageUrl: input.imageUrl || null,

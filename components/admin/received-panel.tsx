@@ -31,7 +31,9 @@ type Received = {
   id: number
   itemName: string
   quantity: string
+  quantityPerUnit: string | null
   collectionPoint: string
+  collectionDate: Date | null
   donorName: string | null
   notes: string | null
   imageUrl: string | null
@@ -43,7 +45,9 @@ type Received = {
 const empty = {
   itemName: "",
   quantity: "",
+  quantityPerUnit: "",
   collectionPoint: collectionPoints[0].name,
+  collectionDate: "",
   donorName: "",
   notes: "",
   expiresAt: "",
@@ -110,6 +114,15 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
         <CardContent>
           <form onSubmit={handleAdd} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
+              <Label htmlFor="r-coldate">Fecha de recogida</Label>
+              <Input
+                id="r-coldate"
+                type="date"
+                value={form.collectionDate}
+                onChange={(e) => setForm({ ...form, collectionDate: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="r-item">Material</Label>
               <Input
                 id="r-item"
@@ -125,6 +138,15 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                 value={form.quantity}
                 onChange={(e) => setForm({ ...form, quantity: e.target.value })}
                 placeholder="Ej. 20 cajas"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="r-qpu">Cantidad por envase (opcional)</Label>
+              <Input
+                id="r-qpu"
+                value={form.quantityPerUnit}
+                onChange={(e) => setForm({ ...form, quantityPerUnit: e.target.value })}
+                placeholder="Ej. 500 mg, 10 unidades"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -155,22 +177,21 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="r-notes">Notas (opcional)</Label>
-              <Textarea
-                id="r-notes"
-                rows={2}
-                value={form.notes}
-                onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
               <Label htmlFor="r-expires">Fecha de caducidad (opcional)</Label>
               <Input
                 id="r-expires"
                 type="date"
                 value={form.expiresAt}
                 onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="r-notes">Notas (opcional)</Label>
+              <Textarea
+                id="r-notes"
+                rows={2}
+                value={form.notes}
+                onChange={(e) => setForm({ ...form, notes: e.target.value })}
               />
             </div>
 
@@ -239,8 +260,10 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-14">Foto</TableHead>
+                    <TableHead>F. recogida</TableHead>
                     <TableHead>Material</TableHead>
                     <TableHead>Cantidad</TableHead>
+                    <TableHead>Cant./envase</TableHead>
                     <TableHead>Punto</TableHead>
                     <TableHead>Donante</TableHead>
                     {isSuperAdmin && <TableHead>Voluntario</TableHead>}
@@ -252,6 +275,9 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                 <TableBody>
                   {received.map((r) => (
                     <TableRow key={r.id}>
+                      <TableCell className="text-muted-foreground text-xs">
+                        {r.collectionDate ? new Date(r.collectionDate).toLocaleDateString("es-ES") : "—"}
+                      </TableCell>
                       <TableCell>
                         {r.imageUrl ? (
                           <a href={r.imageUrl} target="_blank" rel="noopener noreferrer">
@@ -271,6 +297,7 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                       </TableCell>
                       <TableCell className="font-medium">{r.itemName}</TableCell>
                       <TableCell>{r.quantity}</TableCell>
+                      <TableCell className="text-muted-foreground">{r.quantityPerUnit || "—"}</TableCell>
                       <TableCell className="text-muted-foreground">{r.collectionPoint}</TableCell>
                       <TableCell className="text-muted-foreground">{r.donorName || "—"}</TableCell>
                       {isSuperAdmin && (

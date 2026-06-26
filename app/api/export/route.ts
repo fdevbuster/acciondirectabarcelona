@@ -56,8 +56,10 @@ export async function GET(req: NextRequest) {
     const data = await db
       .select({
         id: materialReceived.id,
+        fecha_recogida: materialReceived.collectionDate,
         material: materialReceived.itemName,
         cantidad: materialReceived.quantity,
+        cantidad_por_envase: materialReceived.quantityPerUnit,
         punto: materialReceived.collectionPoint,
         donante: materialReceived.donorName,
         notas: materialReceived.notes,
@@ -72,6 +74,8 @@ export async function GET(req: NextRequest) {
       .orderBy(desc(materialReceived.receivedAt))
     rows = data.map(r => ({
       ...r,
+      fecha_recogida: r.fecha_recogida ? new Date(r.fecha_recogida).toISOString().split("T")[0] : "",
+      cantidad_por_envase: r.cantidad_por_envase ?? "",
       donante: r.donante ?? "",
       notas: r.notas ?? "",
       foto: r.foto ?? "",
