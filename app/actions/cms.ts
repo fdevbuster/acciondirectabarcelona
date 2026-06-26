@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { collectionPoint, neededItem, partner } from "@/lib/db/schema"
+import { collectionPoint, neededItem, partner, siteConfig } from "@/lib/db/schema"
 import { eq, asc } from "drizzle-orm"
 import { headers } from "next/headers"
 import { revalidatePath } from "next/cache"
@@ -11,6 +11,22 @@ async function requireSuperAdmin() {
   const session = await auth.api.getSession({ headers: await headers() })
   const role = (session?.user as { role?: string })?.role
   if (!session?.user || role !== "superadmin") throw new Error("Forbidden")
+}
+
+// ---- Site config ----
+export async function getSiteConfig(): Promise<Record<string, string>> {
+  const rows = await db.select().from(siteConfig)
+  return Object.fromEntries(rows.map(r => [r.key, r.value]))
+}
+
+export async function setSiteConfig(key: string, value: string) {
+  await requireSuperAdmin()
+  await db.insert(siteConfig).values({ key, value }).onConflictDoUpdate({
+    target: siteConfig.key,
+    set: { value, updatedAt: new Date() },
+  })
+  revalidatePath("/")
+  revalidatePath("/admin")
 }
 
 // ---- Collection points ---- (public read, auth required for write)

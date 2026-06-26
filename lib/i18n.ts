@@ -61,6 +61,11 @@ export type Dict = {
     error: string
     another: string
   }
+  collectionDay: {
+    badge: string
+    title: string
+    body: string
+  }
   volunteer: {
     title: string
     body: string
@@ -145,6 +150,11 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "Hemos recibido tu solicitud. Nuestro equipo la revisará y te contactará.",
       error: "Hubo un problema al enviar. Inténtalo de nuevo.",
       another: "Enviar otra solicitud",
+    },
+    collectionDay: {
+      badge: "¡Atención!",
+      title: "Día de recogida",
+      body: "La recogida de materiales se realizará únicamente el",
     },
     volunteer: {
       title: "¿Quieres ser voluntario/a?",
@@ -231,6 +241,11 @@ export const translations: Record<Lang, Dict> = {
       error: "Hi ha hagut un problema en enviar. Torna-ho a provar.",
       another: "Enviar una altra sol·licitud",
     },
+    collectionDay: {
+      badge: "Atenció!",
+      title: "Dia de recollida",
+      body: "La recollida de materials es farà únicament el",
+    },
     volunteer: {
       title: "Vols ser voluntari/a?",
       body: "Uneix-te a l'equip. Necessitem persones a Barcelona que puguin ajudar als punts de recollida, coordinar donacions o donar suport amb la logística.",
@@ -315,6 +330,11 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "We have received your request. Our team will review it and contact you.",
       error: "There was a problem submitting. Please try again.",
       another: "Submit another request",
+    },
+    collectionDay: {
+      badge: "Important!",
+      title: "Collection day",
+      body: "Materials will be collected on",
     },
     volunteer: {
       title: "Want to volunteer?",

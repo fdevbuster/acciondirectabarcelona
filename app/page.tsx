@@ -3,13 +3,14 @@ export const dynamic = "force-dynamic"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { HomeContent } from "@/components/home-content"
-import { getCollectionPoints, getNeededItems, getPartners } from "@/app/actions/cms"
+import { getCollectionPoints, getNeededItems, getPartners, getSiteConfig } from "@/app/actions/cms"
 
 export default async function HomePage() {
-  const [collectionPoints, neededItems, partners] = await Promise.all([
+  const [collectionPoints, neededItems, partners, config] = await Promise.all([
     getCollectionPoints(),
     getNeededItems(),
     getPartners(),
+    getSiteConfig(),
   ])
 
   const activePoints = collectionPoints.filter(p => p.active)
@@ -24,6 +25,7 @@ export default async function HomePage() {
           collectionPoints={activePoints}
           neededItems={activeItems}
           partners={activePartners}
+          collectionDate={config.collection_date ?? null}
         />
       </main>
       <SiteFooter />

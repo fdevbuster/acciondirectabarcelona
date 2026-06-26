@@ -2,11 +2,12 @@
 
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
-import { Plus, Pencil, Trash2, MapPin, Package, HeartHandshake, Check, X, ToggleLeft, ToggleRight } from "lucide-react"
+import { Plus, Pencil, Trash2, MapPin, Package, HeartHandshake, Check, X, ToggleLeft, ToggleRight, CalendarDays } from "lucide-react"
 import {
   upsertCollectionPoint, deleteCollectionPoint,
   upsertNeededItem, deleteNeededItem,
   upsertPartner, deletePartner,
+  setSiteConfig,
 } from "@/app/actions/cms"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -367,20 +368,72 @@ function PartnersEditor({ initial }: { initial: Partner[] }) {
   )
 }
 
+// ─── Site Config ─────────────────────────────────────────────────────────────
+
+function SiteConfigEditor({ collectionDate }: { collectionDate: string }) {
+  const [date, setDate] = useState(collectionDate)
+  const [saved, setSaved] = useState(collectionDate)
+  const [pending, start] = useTransition()
+
+  const save = (e: React.FormEvent) => {
+    e.preventDefault()
+    start(async () => {
+      await setSiteConfig("collection_date", date)
+      setSaved(date)
+      toast.success("Fecha actualizada")
+    })
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <CalendarDays className="size-4 text-primary" /> Fecha de recogida
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={save} className="flex items-end gap-3">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="collection-date">Fecha</Label>
+            <Input
+              id="collection-date"
+              type="date"
+              value={date}
+              onChange={e => setDate(e.target.value)}
+              className="w-44"
+            />
+          </div>
+          <Button type="submit" size="sm" disabled={pending || date === saved} className="gap-1.5">
+            <Check className="size-4" /> Guardar
+          </Button>
+        </form>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Se muestra como banner en la homepage. Déjala en blanco para ocultarla.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
 // ─── Main CMS Panel ───────────────────────────────────────────────────────────
 
 export function CmsPanel({
   collectionPoints,
   neededItems,
   partners,
+  collectionDate,
 }: {
   collectionPoints: CollectionPoint[]
   neededItems: NeededItem[]
   partners: Partner[]
+  collectionDate: string
 }) {
   return (
-    <Tabs defaultValue="items">
+    <Tabs defaultValue="general">
       <TabsList className="mb-4">
+        <TabsTrigger value="general" className="gap-1.5">
+          <CalendarDays className="size-4" /> General
+        </TabsTrigger>
         <TabsTrigger value="items" className="gap-1.5">
           <Package className="size-4" /> Materiales
         </TabsTrigger>
@@ -391,6 +444,9 @@ export function CmsPanel({
           <HeartHandshake className="size-4" /> Aliados Venezuela
         </TabsTrigger>
       </TabsList>
+      <TabsContent value="general">
+        <SiteConfigEditor collectionDate={collectionDate} />
+      </TabsContent>
       <TabsContent value="items">
         <Card>
           <CardHeader>

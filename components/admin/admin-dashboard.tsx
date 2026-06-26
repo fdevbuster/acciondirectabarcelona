@@ -63,6 +63,7 @@ export function AdminDashboard({
   collectionPoints,
   neededItems,
   partners,
+  collectionDate,
 }: {
   userName: string
   role: string
@@ -73,6 +74,7 @@ export function AdminDashboard({
   collectionPoints: { id: number; name: string; address: string; lat: string | null; lng: string | null; active: boolean }[]
   neededItems: { id: number; es: string; ca: string; en: string; active: boolean }[]
   partners: { id: number; name: string; description: string; url: string; logoUrl: string | null; active: boolean }[]
+  collectionDate: string
 }) {
   const router = useRouter()
   const isSuperAdmin = role === "superadmin"
@@ -192,7 +194,7 @@ export function AdminDashboard({
               <UsersPanel users={users} />
             </TabsContent>
             <TabsContent value="content">
-              <CmsPanel collectionPoints={collectionPoints} neededItems={neededItems} partners={partners} />
+              <CmsPanel collectionPoints={collectionPoints} neededItems={neededItems} partners={partners} collectionDate={collectionDate} />
             </TabsContent>
           </Tabs>
         ) : (

@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ExternalLink,
   MessageCircle,
+  CalendarDays,
 } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { resourceLinks, whatsappUrl } from "@/lib/site-data"
@@ -25,10 +26,12 @@ export function HomeContent({
   collectionPoints,
   neededItems,
   partners,
+  collectionDate,
 }: {
   collectionPoints: CollectionPoint[]
   neededItems: NeededItem[]
   partners: Partner[]
+  collectionDate: string | null
 }) {
   const { lang, t } = useLanguage()
 
@@ -73,6 +76,26 @@ export function HomeContent({
           </div>
         </div>
       </section>
+
+      {/* Collection day banner */}
+      {collectionDate && (
+        <section className="border-t border-destructive/30 bg-destructive/10">
+          <div className="mx-auto flex max-w-3xl items-center justify-center gap-3 px-4 py-4 text-center">
+            <CalendarDays className="size-5 shrink-0 text-destructive" />
+            <p className="text-sm font-medium text-foreground">
+              <span className="font-bold text-destructive">{t.collectionDay.badge} </span>
+              {t.collectionDay.body}{" "}
+              <span className="font-bold">
+                {new Date(collectionDate + "T12:00:00").toLocaleDateString(
+                  lang === "en" ? "en-GB" : lang === "ca" ? "ca-ES" : "es-ES",
+                  { weekday: "long", day: "numeric", month: "long", year: "numeric" }
+                )}
+              </span>
+              {" "}· 10h – 13h
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Collection points */}
       <section id="puntos" className="scroll-mt-20 border-t border-border bg-card">

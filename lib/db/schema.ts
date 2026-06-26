@@ -91,6 +91,13 @@ export const materialReceived = pgTable("material_received", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 })
 
+// Generic key-value config (managed from admin panel)
+export const siteConfig = pgTable("site_config", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+})
+
 // CMS tables (managed from admin panel)
 export const collectionPoint = pgTable("collection_point", {
   id: serial("id").primaryKey(),

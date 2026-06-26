@@ -11,7 +11,22 @@ async function migrate() {
     await client.query(`ALTER TABLE "user" ADD COLUMN IF NOT EXISTS "role" text NOT NULL DEFAULT 'pending'`)
     await client.query(`ALTER TABLE "material_received" ADD COLUMN IF NOT EXISTS "imageUrl" text`)
 
-    // v2: CMS tables
+    // v2: site_config
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS "site_config" (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL,
+        "updatedAt" TIMESTAMP DEFAULT NOW() NOT NULL
+      )
+    `)
+    // Seed collection date
+    await client.query(`
+      INSERT INTO "site_config" (key, value)
+      VALUES ('collection_date', '2026-06-27')
+      ON CONFLICT (key) DO NOTHING
+    `)
+
+    // v3: CMS tables
     await client.query(`
       CREATE TABLE IF NOT EXISTS "collection_point" (
         id SERIAL PRIMARY KEY,
