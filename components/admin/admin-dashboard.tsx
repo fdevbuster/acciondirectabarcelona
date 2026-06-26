@@ -13,6 +13,7 @@ import { ReceivedPanel } from "@/components/admin/received-panel"
 import { SentPanel } from "@/components/admin/sent-panel"
 import { UsersPanel } from "@/components/admin/users-panel"
 import { CmsPanel } from "@/components/admin/cms-panel"
+import { ExportButtons } from "@/components/admin/export-buttons"
 
 type Request = {
   id: number
@@ -145,6 +146,13 @@ export function AdminDashboard({
             </Card>
           ))}
         </div>
+
+        {isSuperAdmin && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3">
+            <span className="text-sm font-medium text-muted-foreground">Exportar datos</span>
+            <ExportButtons />
+          </div>
+        )}
 
         {isSuperAdmin ? (
           <Tabs defaultValue="received">
