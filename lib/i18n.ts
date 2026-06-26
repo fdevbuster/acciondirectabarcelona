@@ -61,6 +61,13 @@ export type Dict = {
     error: string
     another: string
   }
+  distribution: {
+    title: string
+    body: string
+    partner: string
+    partnerDesc: string
+    visit: string
+  }
   about: {
     title: string
     body: string
@@ -133,6 +140,13 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "Hemos recibido tu solicitud. Nuestro equipo la revisará y te contactará.",
       error: "Hubo un problema al enviar. Inténtalo de nuevo.",
       another: "Enviar otra solicitud",
+    },
+    distribution: {
+      title: "¿Cómo llega la ayuda a Venezuela?",
+      body: "Las medicinas recogidas se entregarán a través de una ONG de confianza con amplia experiencia en envíos humanitarios a Venezuela.",
+      partner: "Meals4Hope",
+      partnerDesc: "Llevan años trabajando con envíos humanitarios a Venezuela. Gente de nuestro equipo les conoce de hace tiempo y responden impecablemente. Nos garantizan que los insumos llegan a quienes los necesitan.",
+      visit: "Ver su web",
     },
     about: {
       title: "Quiénes somos",
@@ -207,6 +221,13 @@ export const translations: Record<Lang, Dict> = {
       error: "Hi ha hagut un problema en enviar. Torna-ho a provar.",
       another: "Enviar una altra sol·licitud",
     },
+    distribution: {
+      title: "Com arriba l'ajuda a Veneçuela?",
+      body: "Les medicines recollides es lliuraran a través d'una ONG de confiança amb àmplia experiència en enviaments humanitaris a Veneçuela.",
+      partner: "Meals4Hope",
+      partnerDesc: "Porten anys treballant amb enviaments humanitaris a Veneçuela. Gent del nostre equip els coneix de fa temps i responen impecablement. Ens garanteixen que els insumos arriben a qui els necessita.",
+      visit: "Veure el seu web",
+    },
     about: {
       title: "Qui som",
       body:
@@ -279,6 +300,13 @@ export const translations: Record<Lang, Dict> = {
       successMsg: "We have received your request. Our team will review it and contact you.",
       error: "There was a problem submitting. Please try again.",
       another: "Submit another request",
+    },
+    distribution: {
+      title: "How does aid reach Venezuela?",
+      body: "The collected medicines will be delivered through a trusted NGO with extensive experience in humanitarian shipments to Venezuela.",
+      partner: "Meals4Hope",
+      partnerDesc: "They have been working with humanitarian shipments to Venezuela for years. Members of our team have known them for a long time and they operate impeccably. They ensure the supplies reach those who need them.",
+      visit: "Visit their website",
     },
     about: {
       title: "Who we are",

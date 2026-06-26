@@ -157,6 +157,38 @@ export function HomeContent() {
         </div>
       </section>
 
+      {/* Distribution partner */}
+      <section className="scroll-mt-20 border-t border-border bg-card">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground text-balance">
+              {t.distribution.title}
+            </h2>
+            <p className="mt-3 text-pretty text-muted-foreground">{t.distribution.body}</p>
+          </div>
+          <div className="mx-auto mt-10 max-w-xl rounded-xl border border-border bg-background p-6 flex flex-col items-center gap-4 text-center shadow-sm">
+            <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
+              <HeartHandshake className="size-7 text-primary" />
+            </div>
+            <div>
+              <p className="text-xl font-bold text-foreground">{t.distribution.partner}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t.distribution.partnerDesc}
+              </p>
+            </div>
+            <a
+              href="https://www.meals4hope.org/es/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <ExternalLink className="size-4" />
+              {t.distribution.visit}
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Other important resources */}
       <section id="recursos" className="scroll-mt-20 border-t border-border bg-card">
         <div className="mx-auto max-w-6xl px-4 py-16">
