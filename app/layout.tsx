@@ -17,21 +17,8 @@ export const metadata: Metadata = {
     'Grupo solidario en Barcelona que recoge artículos de primera necesidad para enviar a los afectados por el terremoto en Venezuela. Consulta los puntos de recogida y los materiales que necesitamos.',
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/logo-adb.png',
+    apple: '/logo-adb.png',
   },
 }
 
