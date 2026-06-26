@@ -35,6 +35,7 @@ type Received = {
   donorName: string | null
   notes: string | null
   imageUrl: string | null
+  expiresAt: Date | null
   receivedAt: Date
   userName?: string | null
 }
@@ -45,11 +46,13 @@ const empty = {
   collectionPoint: collectionPoints[0].name,
   donorName: "",
   notes: "",
+  expiresAt: "",
 }
 
 export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Received[]; isSuperAdmin?: boolean }) {
   const [form, setForm] = useState(empty)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
+
   const [uploading, setUploading] = useState(false)
   const [pending, startTransition] = useTransition()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -80,7 +83,7 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
       return
     }
     startTransition(async () => {
-      await addReceived({ ...form, imageUrl: imageUrl ?? undefined })
+      await addReceived({ ...form, imageUrl: imageUrl ?? undefined, expiresAt: form.expiresAt || undefined })
       setForm(empty)
       setImageUrl(null)
       if (fileInputRef.current) fileInputRef.current.value = ""
@@ -161,6 +164,16 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
               />
             </div>
 
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="r-expires">Fecha de caducidad (opcional)</Label>
+              <Input
+                id="r-expires"
+                type="date"
+                value={form.expiresAt}
+                onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
+              />
+            </div>
+
             {/* Photo upload */}
             <div className="flex flex-col gap-2">
               <Label>Foto del material (opcional)</Label>
@@ -231,6 +244,7 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                     <TableHead>Punto</TableHead>
                     <TableHead>Donante</TableHead>
                     {isSuperAdmin && <TableHead>Voluntario</TableHead>}
+                    <TableHead>Caducidad</TableHead>
                     <TableHead>Fecha</TableHead>
                     <TableHead className="w-10" />
                   </TableRow>
@@ -262,6 +276,9 @@ export function ReceivedPanel({ received, isSuperAdmin = false }: { received: Re
                       {isSuperAdmin && (
                         <TableCell className="text-muted-foreground">{r.userName || "—"}</TableCell>
                       )}
+                      <TableCell className={r.expiresAt && new Date(r.expiresAt) < new Date() ? "font-medium text-destructive" : "text-muted-foreground"}>
+                        {r.expiresAt ? new Date(r.expiresAt).toLocaleDateString("es-ES") : "—"}
+                      </TableCell>
                       <TableCell className="text-muted-foreground">
                         {new Date(r.receivedAt).toLocaleDateString("es-ES")}
                       </TableCell>

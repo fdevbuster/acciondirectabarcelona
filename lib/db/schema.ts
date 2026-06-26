@@ -87,6 +87,7 @@ export const materialReceived = pgTable("material_received", {
   donorName: text("donorName"),
   notes: text("notes"),
   imageUrl: text("imageUrl"),
+  expiresAt: timestamp("expiresAt"),
   receivedAt: timestamp("receivedAt").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 })

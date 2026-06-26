@@ -73,6 +73,7 @@ export async function addReceived(input: {
   donorName?: string
   notes?: string
   imageUrl?: string
+  expiresAt?: string
 }) {
   const u = await getSessionUser()
   if (!canAccessPanel(u)) throw new Error("Forbidden")
@@ -84,6 +85,7 @@ export async function addReceived(input: {
     donorName: input.donorName?.trim() || null,
     notes: input.notes?.trim() || null,
     imageUrl: input.imageUrl || null,
+    expiresAt: input.expiresAt ? new Date(input.expiresAt) : null,
   })
   revalidatePath("/admin")
 }
