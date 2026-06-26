@@ -3,10 +3,9 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
-import { collectionPoints } from "@/lib/site-data"
 
-// Default Leaflet marker icons rely on bundler-resolved asset paths that break in Next.
-// Use a self-contained divIcon styled with the brand color instead.
+type Point = { name: string; address: string; coords?: { lat: number; lng: number } }
+
 const markerIcon = L.divIcon({
   className: "",
   html: `<span style="
@@ -19,12 +18,10 @@ const markerIcon = L.divIcon({
   popupAnchor: [0, -10],
 })
 
-const points = collectionPoints.filter((p) => p.coords)
-
-// Centered roughly on l'Eixample, Barcelona.
 const center: [number, number] = [41.405, 2.168]
 
-export default function PointsMap() {
+export default function PointsMap({ collectionPoints }: { collectionPoints: Point[] }) {
+  const points = collectionPoints.filter((p) => p.coords)
   return (
     <MapContainer
       center={center}

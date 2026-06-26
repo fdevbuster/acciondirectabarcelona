@@ -91,6 +91,36 @@ export const materialReceived = pgTable("material_received", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 })
 
+// CMS tables (managed from admin panel)
+export const collectionPoint = pgTable("collection_point", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  address: text("address").notNull(),
+  lat: text("lat"),
+  lng: text("lng"),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+})
+
+export const neededItem = pgTable("needed_item", {
+  id: serial("id").primaryKey(),
+  es: text("es").notNull(),
+  ca: text("ca").notNull(),
+  en: text("en").notNull(),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+})
+
+export const partner = pgTable("partner", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  url: text("url").notNull(),
+  logoUrl: text("logoUrl"),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+})
+
 // Materials sent to Venezuela: where and to whom (admin only)
 export const materialSent = pgTable("material_sent", {
   id: serial("id").primaryKey(),

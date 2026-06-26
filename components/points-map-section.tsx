@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic"
 
+type Point = { name: string; address: string; coords?: { lat: number; lng: number } }
+
 const PointsMap = dynamic(() => import("@/components/points-map"), {
   ssr: false,
   loading: () => (
@@ -11,10 +13,10 @@ const PointsMap = dynamic(() => import("@/components/points-map"), {
   ),
 })
 
-export function PointsMapSection() {
+export function PointsMapSection({ collectionPoints }: { collectionPoints: Point[] }) {
   return (
     <div className="h-80 w-full overflow-hidden rounded-xl border border-border md:h-96">
-      <PointsMap />
+      <PointsMap collectionPoints={collectionPoints} />
     </div>
   )
 }

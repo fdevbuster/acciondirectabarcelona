@@ -11,13 +11,25 @@ import {
   MessageCircle,
 } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
-import { collectionPoints, neededItems, resourceLinks, whatsappUrl } from "@/lib/site-data"
+import { resourceLinks, whatsappUrl } from "@/lib/site-data"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { PointsMapSection } from "@/components/points-map-section"
 
-export function HomeContent() {
+type CollectionPoint = { id: number; name: string; address: string; lat: string | null; lng: string | null; active: boolean }
+type NeededItem = { id: number; es: string; ca: string; en: string; active: boolean }
+type Partner = { id: number; name: string; description: string; url: string; logoUrl: string | null; active: boolean }
+
+export function HomeContent({
+  collectionPoints,
+  neededItems,
+  partners,
+}: {
+  collectionPoints: CollectionPoint[]
+  neededItems: NeededItem[]
+  partners: Partner[]
+}) {
   const { lang, t } = useLanguage()
 
   return (
@@ -39,12 +51,7 @@ export function HomeContent() {
             <Button render={<Link href="#puntos" />} nativeButton={false} size="lg">
               {t.hero.ctaPoints}
             </Button>
-            <Button
-              render={<Link href="/solicitar" />}
-              nativeButton={false}
-              size="lg"
-              variant="outline"
-            >
+            <Button render={<Link href="/solicitar" />} nativeButton={false} size="lg" variant="outline">
               {t.hero.ctaRequest}
             </Button>
           </div>
@@ -78,7 +85,7 @@ export function HomeContent() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {collectionPoints.map((point) => (
-              <Card key={point.name} className="flex flex-col">
+              <Card key={point.id} className="flex flex-col">
                 <CardHeader>
                   <Badge variant="secondary" className="mb-2 w-fit gap-1">
                     <Clock className="size-3" />
@@ -94,9 +101,7 @@ export function HomeContent() {
                   <Button
                     render={
                       <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                          point.address + ", Barcelona",
-                        )}`}
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(point.address + ", Barcelona")}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       />
@@ -114,7 +119,11 @@ export function HomeContent() {
           </div>
           <div className="mt-10">
             <h3 className="sr-only">{t.points.mapTitle}</h3>
-            <PointsMapSection />
+            <PointsMapSection collectionPoints={collectionPoints.map(p => ({
+              name: p.name,
+              address: p.address,
+              coords: p.lat && p.lng ? { lat: parseFloat(p.lat), lng: parseFloat(p.lng) } : undefined,
+            }))} />
           </div>
         </div>
       </section>
@@ -134,22 +143,16 @@ export function HomeContent() {
           <ul className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-3">
             {neededItems.map((item) => (
               <li
-                key={item.en}
+                key={item.id}
                 className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-medium text-card-foreground"
               >
                 <span className="size-2 shrink-0 rounded-full bg-primary" aria-hidden />
-                {item[lang]}
+                {item[lang as "es" | "ca" | "en"]}
               </li>
             ))}
           </ul>
           <div className="mt-10 text-center">
-            <Button
-              render={<Link href="/solicitar" />}
-              nativeButton={false}
-              size="lg"
-              variant="outline"
-              className="gap-2"
-            >
+            <Button render={<Link href="/solicitar" />} nativeButton={false} size="lg" variant="outline" className="gap-2">
               {t.hero.ctaRequest}
               <ArrowRight className="size-4" />
             </Button>
@@ -157,37 +160,41 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* Distribution partner */}
-      <section className="scroll-mt-20 border-t border-border bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground text-balance">
-              {t.distribution.title}
-            </h2>
-            <p className="mt-3 text-pretty text-muted-foreground">{t.distribution.body}</p>
-          </div>
-          <div className="mx-auto mt-10 max-w-xl rounded-xl border border-border bg-background p-6 flex flex-col items-center gap-4 text-center shadow-sm">
-            <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
-              <HeartHandshake className="size-7 text-primary" />
+      {/* Partners / Distribution */}
+      {partners.length > 0 && (
+        <section className="scroll-mt-20 border-t border-border bg-card">
+          <div className="mx-auto max-w-6xl px-4 py-16">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground text-balance">
+                {t.distribution.title}
+              </h2>
+              <p className="mt-3 text-pretty text-muted-foreground">{t.distribution.body}</p>
             </div>
-            <div>
-              <p className="text-xl font-bold text-foreground">{t.distribution.partner}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {t.distribution.partnerDesc}
-              </p>
+            <div className="mx-auto mt-10 flex max-w-3xl flex-col gap-4">
+              {partners.map((p) => (
+                <div key={p.id} className="mx-auto w-full max-w-xl rounded-xl border border-border bg-background p-6 flex flex-col items-center gap-4 text-center shadow-sm">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
+                    <HeartHandshake className="size-7 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-foreground">{p.name}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                  </div>
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                  >
+                    <ExternalLink className="size-4" />
+                    {t.distribution.visit}
+                  </a>
+                </div>
+              ))}
             </div>
-            <a
-              href="https://www.meals4hope.org/es/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              <ExternalLink className="size-4" />
-              {t.distribution.visit}
-            </a>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Other important resources */}
       <section id="recursos" className="scroll-mt-20 border-t border-border bg-card">
@@ -212,7 +219,7 @@ export function HomeContent() {
                   <ExternalLink className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
                 </span>
                 <span className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {r.desc[lang]}
+                  {r.desc[lang as "es" | "ca" | "en"]}
                 </span>
                 <span className="mt-3 text-sm font-medium text-primary">{t.resources.visit}</span>
               </a>

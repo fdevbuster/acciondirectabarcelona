@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 import { getRequests, getReceived, getSent, getUsers } from "@/app/actions/admin"
+import { getCollectionPoints, getNeededItems, getPartners } from "@/app/actions/cms"
 import { AdminDashboard } from "@/components/admin/admin-dashboard"
 import { PendingApproval } from "@/components/admin/pending-approval"
 
@@ -21,11 +22,14 @@ export default async function AdminPage() {
 
   const isSuperAdmin = role === "superadmin"
 
-  const [received, requests, sent, users] = await Promise.all([
+  const [received, requests, sent, users, collectionPoints, neededItems, partners] = await Promise.all([
     getReceived(),
     isSuperAdmin ? getRequests() : Promise.resolve([]),
     isSuperAdmin ? getSent() : Promise.resolve([]),
     isSuperAdmin ? getUsers() : Promise.resolve([]),
+    isSuperAdmin ? getCollectionPoints() : Promise.resolve([]),
+    isSuperAdmin ? getNeededItems() : Promise.resolve([]),
+    isSuperAdmin ? getPartners() : Promise.resolve([]),
   ])
 
   return (
@@ -36,6 +40,9 @@ export default async function AdminPage() {
       received={received}
       sent={sent}
       users={users}
+      collectionPoints={collectionPoints}
+      neededItems={neededItems}
+      partners={partners}
     />
   )
 }

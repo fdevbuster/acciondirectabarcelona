@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { LogOut, Inbox, PackageCheck, Send, ExternalLink, Users } from "lucide-react"
+import { LogOut, Inbox, PackageCheck, Send, ExternalLink, Users, LayoutDashboard } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,6 +12,7 @@ import { RequestsPanel } from "@/components/admin/requests-panel"
 import { ReceivedPanel } from "@/components/admin/received-panel"
 import { SentPanel } from "@/components/admin/sent-panel"
 import { UsersPanel } from "@/components/admin/users-panel"
+import { CmsPanel } from "@/components/admin/cms-panel"
 
 type Request = {
   id: number
@@ -59,6 +60,9 @@ export function AdminDashboard({
   received,
   sent,
   users,
+  collectionPoints,
+  neededItems,
+  partners,
 }: {
   userName: string
   role: string
@@ -66,6 +70,9 @@ export function AdminDashboard({
   received: Received[]
   sent: Sent[]
   users: User[]
+  collectionPoints: { id: number; name: string; address: string; lat: string | null; lng: string | null; active: boolean }[]
+  neededItems: { id: number; es: string; ca: string; en: string; active: boolean }[]
+  partners: { id: number; name: string; description: string; url: string; logoUrl: string | null; active: boolean }[]
 }) {
   const router = useRouter()
   const isSuperAdmin = role === "superadmin"
@@ -166,6 +173,10 @@ export function AdminDashboard({
                   </span>
                 )}
               </TabsTrigger>
+              <TabsTrigger value="content" className="gap-1.5">
+                <LayoutDashboard className="size-4" />
+                Contenido
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="received">
@@ -179,6 +190,9 @@ export function AdminDashboard({
             </TabsContent>
             <TabsContent value="users">
               <UsersPanel users={users} />
+            </TabsContent>
+            <TabsContent value="content">
+              <CmsPanel collectionPoints={collectionPoints} neededItems={neededItems} partners={partners} />
             </TabsContent>
           </Tabs>
         ) : (
